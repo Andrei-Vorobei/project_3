@@ -146,12 +146,13 @@ window.addEventListener('DOMContentLoaded', () => {
 	// Создаем карточки товаров при помощи классов
 
 	class MenuCard {
-		constructor(src, alt, title, descr, price, parent) {
+		constructor(src, alt, title, descr, price, parent, ...classes) {
 			this.src = src;
 			this.alt = alt;
 			this.title = title;
 			this.descr = descr;
 			this.price = price;
+			this.classes = classes;
 			this.parent = document.querySelector(parent);
 			this.transfer = 66;
 			this.ExChangeToRub();
@@ -163,16 +164,20 @@ window.addEventListener('DOMContentLoaded', () => {
 
 		render() {
 			const cardItem = document.createElement('div');
+			if (this.classes.length === 0) {
+				this.classes = ['menu__item'];
+			}
+
+			this.classes.forEach(className => cardItem.classList.add(className));
+
 			cardItem.innerHTML = `
-				<div class="menu__item">
-					<img src=${this.src} alt=${this.alt}>
-					<h3 class="menu__item-subtitle">${this.title}</h3>
-					<div class="menu__item-descr">${this.descr}</div>
-					<div class="menu__item-divider"></div>
-					<div class="menu__item-price">
-						<div class="menu__item-cost">Цена:</div>
-						<div class="menu__item-total"><span>${this.price}</span> руб/день</div>
-					</div>
+				<img src=${this.src} alt=${this.alt}>
+				<h3 class="menu__item-subtitle">${this.title}</h3>
+				<div class="menu__item-descr">${this.descr}</div>
+				<div class="menu__item-divider"></div>
+				<div class="menu__item-price">
+					<div class="menu__item-cost">Цена:</div>
+					<div class="menu__item-total"><span>${this.price}</span> руб/день</div>
 				</div>
 			`;
 			this.parent.append(cardItem);
@@ -194,7 +199,8 @@ window.addEventListener('DOMContentLoaded', () => {
 		"Меню “Премиум”",
 		"В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!",
 		14,
-		".menu .container"
+		".menu .container",
+		"menu__item"
 	).render();
 
 	new MenuCard(
@@ -203,6 +209,7 @@ window.addEventListener('DOMContentLoaded', () => {
 		"Меню \"Постное\"",
 		"Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.",
 		21,
-		".menu .container"
+		".menu .container",
+		"menu__item"
 	).render();
 });
